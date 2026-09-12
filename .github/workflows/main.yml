@@ -9,33 +9,41 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
-      - name: Unzip project
+      - name: Unzip source
         run: |
           unzip -q campus_connect_android_ready.zip
-          mv campus_connect project
+          mv campus_connect source
 
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: 3.35.2
           channel: stable
 
-      - name: Generate Android project
-        working-directory: project
-        run: flutter create --platforms=android --org com.campusconnect .
+      - name: Create fresh Flutter Android project
+        run: |
+          flutter create --platforms=android --org com.campusconnect build_project
+
+      - name: Copy Campus Connect source
+        run: |
+          cp -r source/lib build_project/
+          cp source/pubspec.yaml build_project/
+          mkdir -p build_project/assets
+          printf "SUPABASE_URL=\nSUPABASE_ANON_KEY=\n" > build_project/.env
 
       - name: Install dependencies
-        working-directory: project
+        working-directory: build_project
         run: flutter pub get
 
       - name: Build APK
-        working-directory: project
+        working-directory: build_project
         run: flutter build apk --release
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: campus-connect-apk
-          path: project/build/app/outputs/flutter-apk/app-release.apk
+          path: build_project/build/app/outputs/flutter-apk/app-release.apk
