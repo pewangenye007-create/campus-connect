@@ -1,4 +1,6 @@
-name: Build Campus Connect APK
+name: Build Campus Connect APK      - name: Fix Dart const error
+        run: |
+          sed -i 's/child: const Card(child: Center(child: loading/child: Card(child: Center(child: loading/' source/lib/app.dart
 
 on:
   workflow_dispatch:
