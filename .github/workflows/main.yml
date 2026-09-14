@@ -1,6 +1,4 @@
-name: Build Campus Connect APK      - name: Fix Dart const error
-        run: |
-          sed -i 's/child: const Card(child: Center(child: loading/child: Card(child: Center(child: loading/' source/lib/app.dart
+name: Build Campus Connect APK
 
 on:
   workflow_dispatch:
@@ -25,15 +23,17 @@ jobs:
           flutter-version: 3.35.2
           channel: stable
 
-      - name: Create fresh Flutter Android project
-        run: |
-          flutter create --platforms=android --org com.campusconnect build_project
+      - name: Create Android project
+        run: flutter create --platforms=android --org com.campusconnect build_project
 
-      - name: Copy Campus Connect source
+      - name: Fix Dart source
+        run: |
+          sed -i 's/child: const Card(child: Center(child: loading/child: Card(child: Center(child: loading/' source/lib/app.dart
+
+      - name: Copy source
         run: |
           cp -r source/lib build_project/
           cp source/pubspec.yaml build_project/
-          mkdir -p build_project/assets
           printf "SUPABASE_URL=\nSUPABASE_ANON_KEY=\n" > build_project/.env
 
       - name: Install dependencies
