@@ -1,4 +1,7 @@
-name: Build Campus Connect APK
+- name: Copy Campus Connect source
+  run: |
+    cp -r source/lib build_project/
+    cp source/pubspec.yaml build_project/name: Build Campus Connect APK
 
 on:
   workflow_dispatch:
