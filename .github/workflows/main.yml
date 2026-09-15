@@ -30,11 +30,11 @@ jobs:
         run: |
           sed -i 's/child: const Card(child: Center(child: loading/child: Card(child: Center(child: loading/' source/lib/app.dart
 
-      - name: Copy source
-        run: |
-          cp -r source/lib build_project/
-          cp source/pubspec.yaml build_project/
-          printf "SUPABASE_URL=\nSUPABASE_ANON_KEY=\n" > build_project/.env
+    - name: Copy source
+  run: |
+    cp -r source/lib build_project/
+    cp source/pubspec.yaml build_project/
+    printf "SUPABASE_URL=%s\nSUPABASE_ANON_KEY=%s\n" "${{ secrets.SUPABASE_URL }}" "${{ secrets.SUPABASE_ANON_KEY }}" > build_project/.env
 
       - name: Install dependencies
         working-directory: build_project
