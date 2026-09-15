@@ -42,7 +42,7 @@ jobs:
 
       - name: Build APK
         working-directory: build_project
-        run: flutter build apk --release
+        run: flutter build apk --release --dart-define=dart.library.io.force_staggered_ipv6_lookup=true
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
