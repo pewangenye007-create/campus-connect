@@ -36,6 +36,10 @@ jobs:
           cp source/pubspec.yaml build_project/
           printf "SUPABASE_URL=%s\nSUPABASE_ANON_KEY=%s\n" "${{ secrets.SUPABASE_URL }}" "${{ secrets.SUPABASE_ANON_KEY }}" > build_project/.env
 
+      - name: Add Internet permission
+        run: |
+          sed -i '/<manifest/a\    <uses-permission android:name="android.permission.INTERNET"/>' build_project/android/app/src/main/AndroidManifest.xml
+
       - name: Install dependencies
         working-directory: build_project
         run: flutter pub get
