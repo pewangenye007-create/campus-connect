@@ -15,7 +15,7 @@ jobs:
 
       - name: Unzip source
         run: |
-          unzip -q campus_connect_email_verification_fix.zip
+          unzip -q campus_connect_email_verification_fixed2.zip
           mv campus_connect source
 
       - uses: subosito/flutter-action@v2
